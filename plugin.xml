@@ -9,7 +9,7 @@
 
     <description>Simple timer plugin which uses Android Broadcast action: ACTION_TIME_TICK</description>
 
-    <repohttps://github.com/dukhanov/cordova-simple-timer</repo>
+    <repo>https://github.com/dukhanov/cordova-simple-timer</repo>
 
     <keywords></keywords>
 
