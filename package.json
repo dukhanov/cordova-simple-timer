@@ -1,0 +1,22 @@
+{
+  "name": "cordova-simple-timer",
+  "version": "0.0.1",
+  "description": "Simple timer plugin which uses Android Broadcast action: ACTION_TIME_TICK",
+  "cordova": {
+    "id": "cordova-simple-timer",
+    "platforms": [
+      "android"
+    ]
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/dukhanov/cordova-simple-timer"
+  },
+  "keywords": [
+    "cordova",
+    "timer",
+    "ACTION_TIME_TICK"
+  ],
+  "author": "dukhanov",
+  "license": "Apache-2.0"
+}

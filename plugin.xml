@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<plugin xmlns="http://apache.org/cordova/ns/plugins/1.0"
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        id="com.dukhanov.cordova.simpletimer"
+        version="0.0.1">
+
+    <name>Cordova simple timer</name>
+
+    <description>Simple timer plugin which uses Android Broadcast action: ACTION_TIME_TICK</description>
+
+    <repohttps://github.com/dukhanov/cordova-simple-timer</repo>
+
+    <keywords></keywords>
+
+    <license>Apache-2.0</license>
+
+    <author>Maxim Dukhanov</author>
+
+    <!-- cordova -->
+    <engines>
+        <engine name="cordova" version=">=3.6.0" />
+    </engines>
+
+    <!-- js -->
+
+    <js-module src="www/SimpleTimer.js" name="SimpleTimer">
+        <clobbers target="SimpleTimer" />
+    </js-module>
+
+
+    <!-- android -->
+    <platform name="android">
+
+        <source-file
+                src="src/android/SimpleTimer.java"
+                target-dir="src/com/dukhanov/cordova" />
+
+        <config-file target="res/xml/config.xml" parent="/*">
+            <feature name="SimpleTimer">
+                <param name="android-package" value="com.dukhanov.cordova.SimpleTimer"/>
+            </feature>
+        </config-file>
+
+    </platform>
+
+</plugin>
