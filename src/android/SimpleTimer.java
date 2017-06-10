@@ -48,10 +48,6 @@ public class SimpleTimer extends CordovaPlugin {
 		Log.v(TAG, "startTimer");
 
 		timerCallback = cb;
-		PluginResult result = new PluginResult(PluginResult.Status.OK);
-		result.setKeepCallback(true);
-		cb.sendPluginResult(result);
-
         cordova.getActivity().getApplicationContext().registerReceiver(timerReceiver, mTimerIntentFilter);
 	}
 
@@ -75,7 +71,7 @@ public class SimpleTimer extends CordovaPlugin {
 	BroadcastReceiver timerReceiver = new BroadcastReceiver() {
 		@Override
 		public void onReceive(Context context, Intent intent) {
-			Log.d(TAG, "******** timer tick **********");
+			Log.d(TAG, "timer tick");
 			if (timerCallback != null) {
 				PluginResult result = new PluginResult(PluginResult.Status.OK);
 				result.setKeepCallback(true);
