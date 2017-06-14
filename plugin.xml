@@ -3,11 +3,11 @@
 <plugin xmlns="http://apache.org/cordova/ns/plugins/1.0"
         xmlns:android="http://schemas.android.com/apk/res/android"
         id="cordova-simple-timer"
-        version="0.0.1">
+        version="0.0.2">
 
     <name>Cordova simple timer</name>
 
-    <description>Simple timer plugin which uses Android Broadcast action: ACTION_TIME_TICK</description>
+    <description>Simple timer plugin which uses Android AlarmManager</description>
 
     <repo>https://github.com/dukhanov/cordova-simple-timer</repo>
 
@@ -42,6 +42,7 @@
             </feature>
         </config-file>
 
+        <uses-permission android:name="android.permission.WAKE_LOCK"/>
     </platform>
 
 </plugin>

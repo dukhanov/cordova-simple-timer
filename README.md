@@ -1,6 +1,6 @@
 # cordova-simple-timer
 
-Simple timer plugin which uses Android Broadcast action: ACTION_TIME_TICK
+Simple timer plugin which uses Android AlarmManager
 
 ## Installation
 ```
@@ -16,9 +16,11 @@ It has been currently stripped to the minimum needed from a Javascript app.
 
 The following functions are available:
 
-* `SimpleTimer.start(listener, error)`. Start timer with 1 minut interval
+* `SimpleTimer.start(listener, error, config)`. Start timer with 1 minute interval (by default)
   * listener: called on timer tick
   * error: called on function error
+  * config: plugin config
+  * config.interval: timer interval in milliseconds (minimum is 30000)
 * `SimpleTimer.stop(success, error)`. Stop timer
   * success: called on function success
   * error: called on function error
@@ -37,9 +39,13 @@ function onStopped() {
     console.log('timer is stopped');
 }
 
+var config = {
+    interval: 60000 // 60 seconds
+}
+
 // Start
-GpsStatus.start(onTimerTick, errorStart);
+SimpleTimer.start(onTimerTick, errorStart, config);
 
 // Stop
-GpsStatus.stop(onStopped)
+SimpleTimer.stop(onStopped)
 ```

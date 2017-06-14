@@ -2,14 +2,14 @@ var exec = require('cordova/exec');
 
 var SimpleTimer = {
     isStarted: false,
-    start: function (callback, error) {
+    start: function (callback, error, config) {
         if (this.isStarted) {
             console.warn('SimpleTimer is already started');
         }
         this.isStarted = true;
         callback = callback || function() {};
         error = error || function() {};
-        exec(callback, error, 'SimpleTimer', 'start', []);
+        exec(callback, error, 'SimpleTimer', 'start', [config]);
     },
     stop: function (success, error) {
         if (!this.isStarted) {
