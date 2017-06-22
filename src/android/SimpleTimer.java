@@ -14,6 +14,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Build;
+import android.os.PowerManager;
 import android.util.Log;
 
 import java.util.Calendar;
@@ -26,22 +27,29 @@ public class SimpleTimer extends CordovaPlugin {
 	private static final String TIMER_EVENT_ACTION = "com.dukhanov.cordova.TIMER_ACTION";
 	private static final int TIMER_INTERVAL_DEFAULT = 60 * 1000; // 60 seconds
 	private static final int TIMER_INTERVAL_MINIMUM = 30 * 1000; // 30 seconds
+	private static final boolean USE_WAKELOCK_DEFAULT = false;
 	private static final String CONFIG_INTERVAL_NAME = "interval";
+	private static final String USE_WAKELOCK_NAME = "useWakelock";
 
 	private CallbackContext timerCallback;
 	private AlarmManager mAlarmManager;
+	private PowerManager mPowerManager;
+	private PowerManager.WakeLock mWakeLock;
 	private Context mContext;
 	private PendingIntent mAlarmIntent;
 	private int mTimerInterval = TIMER_INTERVAL_DEFAULT; // default value
+	private boolean mUseWakelock = USE_WAKELOCK_DEFAULT; // default value
 
 	// adb logcat -s simpletimer
 	@Override
     protected void pluginInitialize() {
 		Log.v(TAG, "init");
 		mAlarmManager = (AlarmManager) cordova.getActivity().getSystemService(Context.ALARM_SERVICE);
+		mPowerManager = (PowerManager) cordova.getActivity().getSystemService(Context.POWER_SERVICE);
 		mContext = cordova.getActivity().getApplicationContext();
 
 		mAlarmIntent = PendingIntent.getBroadcast(mContext, 0, new Intent(TIMER_EVENT_ACTION), 0);
+		mWakeLock = mPowerManager.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK, TAG);
     }
 
 	@Override
@@ -55,6 +63,8 @@ public class SimpleTimer extends CordovaPlugin {
 			JSONObject config = data.optJSONObject(0);
 			if (config != null) {
 				mTimerInterval = config.optInt(CONFIG_INTERVAL_NAME, TIMER_INTERVAL_DEFAULT);
+				mUseWakelock = config.optBoolean(USE_WAKELOCK_NAME, USE_WAKELOCK_DEFAULT);
+
 				if (mTimerInterval < TIMER_INTERVAL_MINIMUM) {
 					Log.w(TAG, "startTimer, interval is less than minimum value, use minimun value instead: " + TIMER_INTERVAL_MINIMUM);
 					mTimerInterval = TIMER_INTERVAL_MINIMUM;
@@ -71,16 +81,22 @@ public class SimpleTimer extends CordovaPlugin {
 	}
 
 	private void startTimer(CallbackContext cb) {
-		Log.v(TAG, "startTimer, interval: " + mTimerInterval);
+		Log.v(TAG, "startTimer, interval: " + mTimerInterval + "; useWakelock: " + mUseWakelock);
 
 		mContext.registerReceiver(timerReceiver, new IntentFilter(TIMER_EVENT_ACTION));
 		timerCallback = cb;
+		if (mUseWakelock) {
+			mWakeLock.acquire();
+		}
 		runTimer(mTimerInterval);
 	}
 
 	private void stopTimer(CallbackContext cb) {
 		Log.v(TAG, "stopTimer");
 
+        if (mWakeLock.isHeld()) {
+            mWakeLock.release();
+        }
 		clearReceiver();
 		cb.success();
 	}

@@ -1,6 +1,6 @@
 {
   "name": "cordova-simple-timer",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Simple timer plugin which uses Android AlarmManager",
   "cordova": {
     "id": "cordova-simple-timer",

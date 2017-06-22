@@ -21,6 +21,7 @@ The following functions are available:
   * error: called on function error
   * config: plugin config
   * config.interval: timer interval in milliseconds (minimum is 30000)
+  * config.useWakelock: use PowerManager.WakeLock (default is false)
 * `SimpleTimer.stop(success, error)`. Stop timer
   * success: called on function success
   * error: called on function error
@@ -40,7 +41,8 @@ function onStopped() {
 }
 
 var config = {
-    interval: 60000 // 60 seconds
+    interval: 60000, // 60 seconds
+    useWakelock: false
 }
 
 // Start
